@@ -5,12 +5,12 @@
       <hr>
       <div class="col-md-3">
         <label for="x">Número 1:</label>
-        <input v-model="x" @input="calcularResultado" type="number" class="form-control" id="x">
+        <input v-model="estado.x" @input="calcularResultado" type="number" class="form-control" id="x">
       </div>
 
       <div class="col-md-4">
         <label for="operacao">Operação:</label>
-        <select v-model="operacao" @change="calcularResultado" class="form-control" id="operacao">
+        <select v-model="estado.operacao" @change="calcularResultado" class="form-control" id="operacao">
           <option value="soma">+</option>
           <option value="subtracao">-</option>
           <option value="multiplicacao">*</option>
@@ -20,50 +20,46 @@
 
       <div class="col-md-4">
         <label for="y">Número 2:</label>
-        <input v-model="y" @input="calcularResultado" type="number" class="form-control" id="y">
+        <input v-model="estado.y" @input="calcularResultado" type="number" class="form-control" id="y">
       </div>
       <div class="pt-4">
-        <strong>Resultado:</strong> {{ resultado }}
+        <strong>Resultado:</strong> {{ estado.resultado }}
       </div>
     </div>    
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      x: 0,
-      y: 0,
-      operacao: 'soma',
-      resultado: 0
-    };
-  },
-  methods: {
-    calcularResultado() {
-      switch (this.operacao) {
-        case 'soma':
-          this.resultado = this.x + this.y;
-          break;
-        case 'subtracao':
-          this.resultado = this.x - this.y;
-          break;
-        case 'multiplicacao':
-          this.resultado = this.x * this.y;
-          break;
-        case 'divisao':
-          this.resultado = this.x / this.y;
-          break;
-        default:
-          this.resultado = 0;
-      }
-    }
+<script setup>
+import { reactive } from 'vue';
+
+const estado = reactive({
+  x: 0,
+  y: 0,
+  operacao: 'soma',
+  resultado: 0
+})
+
+const calcularResultado = () => {
+  switch (estado.operacao) {
+    case 'soma':
+      estado.resultado = estado.x + estado.y;
+      break;
+    case 'subtracao':
+      estado.resultado = estado.x - estado.y;
+      break;
+    case 'multiplicacao':
+      estado.resultado = estado.x * estado.y;
+      break;
+    case 'divisao':
+      estado.resultado = estado.x / estado.y;
+      break;
+    default:
+      estado.resultado = 0;
   }
-};
+}
 </script>
 
 <style>
-@import "./node_modules/bootstrap/dist/css/bootstrap.min.css";
 body {background-color: grey}
 .container {
     background-color: white; 
